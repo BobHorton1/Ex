@@ -1,0 +1,210 @@
+public class SalesPerson {
+
+   private int id;
+   private double firstMonthSale;
+   private double secondMonthSale;
+   private double thirdMonthSale;
+
+   public SalesPerson(int id, double firstMonthSale, double secondMonthSale, double thirdMonthSale) {
+       super();
+       this.id = id;
+       this.firstMonthSale = firstMonthSale;
+       this.secondMonthSale = secondMonthSale;
+       this.thirdMonthSale = thirdMonthSale;
+   }
+
+   public int getId() {
+       return id;
+   }
+
+   public double getFirstMonthSale() {
+       return firstMonthSale;
+   }
+
+   public double getSecondMonthSale() {
+       return secondMonthSale;
+   }
+
+   public double getThirdMonthSale() {
+       return thirdMonthSale;
+   }
+
+  
+   public void setFirstMonthSale(double firstMonthSale) {
+       this.firstMonthSale = firstMonthSale;
+   }
+
+   public void setSecondMonthSale(double secondMonthSale) {
+       this.secondMonthSale = secondMonthSale;
+   }
+
+   public void setThirdMonthSale(double thirdMonthSale) {
+       this.thirdMonthSale = thirdMonthSale;
+   }
+
+   @Override
+   public String toString() {
+       return id + "\t" + firstMonthSale + "\t" + secondMonthSale + "\t" + thirdMonthSale;
+   }
+
+}
+/*****************************************TestSalesPerson.java********************************/
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Scanner;
+
+public class TestSalesPerson {
+
+   static ArrayList<SalesPerson> salesPersons;
+
+   public static void main(String[] args) {
+
+       Scanner scan = new Scanner(System.in);
+
+       salesPersons = new ArrayList<>();
+       int option = 0;
+
+       do {
+           menu();
+           System.out.print("Choose any option: ");
+           option = scan.nextInt();
+           scan.nextLine();
+           switch (option) {
+           case 1:
+               addNewRecord();
+               break;
+
+           case 2:
+               deleteRecord();
+               break;
+
+           case 3:
+               changeRecord();
+               break;
+
+           case 4:
+               for (SalesPerson person : salesPersons) {
+                  
+                   System.out.println(person.toString());
+               }
+               System.out.println("Bye!");
+               break;
+
+           default:
+               System.out.println("Invalid choice! Please try again.......");
+               break;
+           }
+
+       } while (option != 4);
+
+   }
+
+   private static void addNewRecord() {
+
+       Scanner scan = new Scanner(System.in);
+       if (salesPersons.size() < 20) {
+           System.out.print("Enter Id for user: ");
+           int id = scan.nextInt();
+           scan.nextLine();
+           int flag = 0;
+           for (SalesPerson salesPerson : salesPersons) {
+
+               if (salesPerson.getId() == id) {
+
+                   flag = 1;
+               }
+           }
+           if (flag == 1) {
+               System.out.println("Id number is already Exist!");
+           } else {
+
+               System.out.print("Enter first month sale: ");
+               double firstMonthSale = scan.nextDouble();
+               scan.nextLine();
+               System.out.print("Enter second month sale: ");
+               double secondMonthSale = scan.nextDouble();
+               scan.nextLine();
+               System.out.print("Enter third month sale: ");
+               double thirdMonthSale = scan.nextDouble();
+               scan.nextLine();
+               salesPersons.add(new SalesPerson(id, firstMonthSale, secondMonthSale, thirdMonthSale));
+           }
+       } else {
+           System.out.println("Database is full!");
+       }
+   }
+
+   private static void deleteRecord() {
+
+       Scanner scan = new Scanner(System.in);
+       if (!salesPersons.isEmpty()) {
+           System.out.print("Enter Id for user: ");
+           int id = scan.nextInt();
+           scan.nextLine();
+           int flag = 0;
+           Iterator<SalesPerson> i = salesPersons.iterator();
+           while (i.hasNext()) {
+               SalesPerson person = i.next();
+               if (person.getId() == id) {
+                   flag = 1;
+                   i.remove();
+                   System.out.println("\nThe Record is removed");
+                   break;
+               }
+           }
+
+           if (flag == 0) {
+
+               System.out.println("No record in database by this id!");
+           }
+       } else {
+           System.out.println("Database is empty!");
+       }
+   }
+
+   private static void changeRecord() {
+
+       Scanner scan = new Scanner(System.in);
+       if (!salesPersons.isEmpty()) {
+           System.out.print("Enter Id for user: ");
+           int id = scan.nextInt();
+           scan.nextLine();
+           int flag = 0;
+           for (SalesPerson salesPerson : salesPersons) {
+
+               if (salesPerson.getId() == id) {
+
+                   flag = 1;
+                   System.out.print("Enter first month sale: ");
+                   double firstMonthSale = scan.nextDouble();
+                   scan.nextLine();
+                   System.out.print("Enter second month sale: ");
+                   double secondMonthSale = scan.nextDouble();
+                   scan.nextLine();
+                   System.out.print("Enter third month sale: ");
+                   double thirdMonthSale = scan.nextDouble();
+                   scan.nextLine();
+                   salesPerson.setFirstMonthSale(firstMonthSale);
+                   salesPerson.setSecondMonthSale(secondMonthSale);
+                   salesPerson.setThirdMonthSale(thirdMonthSale);
+               }
+           }
+
+           if (flag == 0) {
+
+               System.out.println("No record found by this id!");
+           }
+       } else {
+
+           System.out.println("Database is empty!");
+       }
+
+   }
+
+   private static void menu() {
+
+       System.out.println("Menu\n" + "1. Add New Sales Person\n" + "2. Delete A Sales Person\n"
+               + "3. Change A Sales Person Record\n" + "4. Exit");
+   }
+}
